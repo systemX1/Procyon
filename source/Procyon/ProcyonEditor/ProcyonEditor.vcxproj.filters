@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\ProcyonEditor\Main.cpp" />
+    <ClCompile Include="src\ProcyonEditor\Core\FApplication.cpp" />
+    <ClCompile Include="src\ProcyonEditor\Core\FContext.cpp" />
+    <ClCompile Include="src\ProcyonEditor\Core\FEditor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ProcyonEditor\Core\FApplication.h" />
+    <ClInclude Include="include\ProcyonEditor\Core\FContext.h" />
+    <ClInclude Include="include\ProcyonEditor\Core\FEditor.h" />
+  </ItemGroup>
+</Project>
