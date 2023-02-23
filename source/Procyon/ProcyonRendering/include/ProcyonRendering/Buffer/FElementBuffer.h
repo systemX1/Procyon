@@ -16,12 +16,17 @@ namespace PrRendering::Buffer {
     */
     class FElementBuffer {
     public:
+        FElementBuffer(const FElementBuffer& p_other)                = delete;
+        FElementBuffer(FElementBuffer&& p_other) noexcept            = delete;
+        FElementBuffer& operator=(const FElementBuffer& p_other)     = delete;
+        FElementBuffer& operator=(FElementBuffer&& p_other) noexcept = delete;
+
         /**
         * Create the EBO using a pointer to the first element and a size (number of elements)
         * @param p_data
         * @parma p_dataSize
         */
-        FElementBuffer(const uint32_t* p_data, const size_t p_dataSize);
+        FElementBuffer(const uint32_t* p_data, size_t p_dataSize);
 
         /**
         * Create the EBO using a vector
