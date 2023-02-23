@@ -6,7 +6,7 @@
 #include "FVertexArray.h"
 
 namespace PrRendering::Buffer {
-    inline FVertexArray::FVertexArray() : m_bufferID(0) {
+    inline FVertexArray::FVertexArray() {
         glGenVertexArrays(1, &m_bufferID);
         glBindVertexArray(m_bufferID);
         logd("gen and bind FVertexArray {}", m_bufferID);
@@ -14,7 +14,7 @@ namespace PrRendering::Buffer {
 
     inline FVertexArray::~FVertexArray() {
         glDeleteVertexArrays(1, &m_bufferID);
-        logd("del FVertexArray {}", m_bufferID);
+         logd("del FVertexArray {}", m_bufferID);
     }
 
     template<class T>

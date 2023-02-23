@@ -66,12 +66,17 @@ namespace Demo::Window {
         }
     }
 
-
     TEST(ProcyonEditor, window2) {
         InitWindow();
 
         while (!app.window->ShouldClose()) {
+            fmtlog::poll();
             app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+
 
             app.window->SwapBuffers();
         }

@@ -1,20 +1,15 @@
 
 #include "pch.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-
 #include "ProcyonRendering/Resources/FShader.h"
 #include "ProcyonRendering/Buffer/TVertexBuffer.h"
 #include "ProcyonRendering/Buffer/FVertexArray.h"
 #include "ProcyonRendering/Buffer/FElementBuffer.h"
 
-
 #include "ProcyonWindow/FWindow.h"
 #include "ProcyonWindow/Device/FDevice.h"
 #include "ProcyonWindow/Settings/FWindowSettings.h"
 #include "ProcyonWindow/Settings/FDeviceSettings.h"
-
 
 namespace Demo::Triangle {
     struct App {
@@ -200,14 +195,12 @@ namespace Demo::Triangle {
             1, 2, 3  // 第二个三角形
         };
 
-
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
         PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
-
 
         while (!app.window->ShouldClose()) {
             fmtlog::poll();
@@ -219,6 +212,153 @@ namespace Demo::Triangle {
             triangleShader.UseProgram();
             vao.Bind();
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // ex1 Try to draw 2 triangles next to each other using glDrawArrays by adding more vertices to your data
+    TEST(ProcyonEditor, ex1) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
+
+        float vertices[] = {
+            // first triangle
+            -0.9f, -0.5f, 0.0f,  // left 
+            -0.0f, -0.5f, 0.0f,  // right
+            -0.45f, 0.5f, 0.0f,  // top 
+            // second triangle
+             0.0f, -0.5f, 0.0f,  // left
+             0.9f, -0.5f, 0.0f,  // right
+             0.45f, 0.5f, 0.0f   // top 
+        };
+
+        // bind: vao->vbo->ebo
+        PrRendering::Buffer::FVertexArray vao;
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 6);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // ex2 Now create the same 2 triangles using two different VAOs and VBOs for their data
+    TEST(ProcyonEditor, ex2) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
+
+        constexpr float firstTriangle[] = {
+            -0.9f, -0.5f, 0.0f,  // left 
+            -0.0f, -0.5f, 0.0f,  // right
+            -0.45f, 0.5f, 0.0f,  // top 
+        };
+        constexpr float secondTriangle[] = {
+                0.0f, -0.5f, 0.0f,  // left
+                0.9f, -0.5f, 0.0f,  // right
+                0.45f, 0.5f, 0.0f   // top 
+        };
+
+        // bind: vao->vbo->ebo
+        std::vector<std::unique_ptr<PrRendering::Buffer::FVertexArray> > vao;
+        vao.reserve(2);
+        auto vao1 = std::make_unique<PrRendering::Buffer::FVertexArray>();
+        auto vao2 = std::make_unique<PrRendering::Buffer::FVertexArray>();
+
+        vao.emplace_back(std::move(vao1));
+        vao.emplace_back(std::move(vao2));
+
+        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+        vbo.emplace_back(std::move(vbo1));
+        vbo.emplace_back(std::move(vbo2));
+
+        vao.at(0)->BindAttribute(*vbo.at(0), 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+        vao.at(1)->BindAttribute(*vbo.at(1), 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.at(0)->Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+            vao.at(1)->Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // ex3 Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow
+    TEST(ProcyonEditor, ex3) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+
+        InitWindow();
+        const PrRendering::Resources::FShader redTriangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
+        const PrRendering::Resources::FShader yellowTriangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\test\YellowTriangleFS.glsl)");
+
+        constexpr float firstTriangle[] = {
+            -0.9f, -0.5f, 0.0f,  // left 
+            -0.0f, -0.5f, 0.0f,  // right
+            -0.45f, 0.5f, 0.0f,  // top 
+        };
+        constexpr float secondTriangle[] = {
+                0.0f, -0.5f, 0.0f,  // left
+                0.9f, -0.5f, 0.0f,  // right
+                0.45f, 0.5f, 0.0f   // top 
+        };
+
+        // bind: vao->vbo->ebo
+        std::vector<std::unique_ptr<PrRendering::Buffer::FVertexArray> > vao;
+        vao.reserve(2);
+        auto vao1 = std::make_unique<PrRendering::Buffer::FVertexArray>();
+        auto vao2 = std::make_unique<PrRendering::Buffer::FVertexArray>();
+
+        vao.emplace_back(std::move(vao1));
+        vao.emplace_back(std::move(vao2));
+
+        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+        vbo.emplace_back(std::move(vbo1));
+        vbo.emplace_back(std::move(vbo2));
+
+        vao.at(0)->BindAttribute(*vbo.at(0), 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+        vao.at(1)->BindAttribute(*vbo.at(1), 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            redTriangleShader.UseProgram();
+            vao.at(0)->Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            yellowTriangleShader.UseProgram();
+            vao.at(1)->Bind();
+            glDrawArrays(GL_TRIANGLES, 0, 3);
 
             app.window->SwapBuffers();
         }

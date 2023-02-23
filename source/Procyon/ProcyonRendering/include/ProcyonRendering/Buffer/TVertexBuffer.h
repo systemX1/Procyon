@@ -18,6 +18,11 @@ namespace PrRendering::Buffer {
     template <class T>
     class TVertexBuffer {
     public:
+        TVertexBuffer(const TVertexBuffer& p_other)                = delete;
+        TVertexBuffer(TVertexBuffer&& p_other) noexcept            = delete;
+        TVertexBuffer& operator=(const TVertexBuffer& p_other)     = delete;
+        TVertexBuffer& operator=(TVertexBuffer&& p_other) noexcept = delete;
+
         /**
         * Create the VBO using a pointer to the first element and a size (number of elements)
         * @param p_data
