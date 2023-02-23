@@ -11,8 +11,47 @@
 namespace PrRendering::Buffer {
 
 
+    /**
+    * Wraps OpenGL EBO
+    */
+    class FElementBuffer {
+    public:
+        /**
+        * Create the EBO using a pointer to the first element and a size (number of elements)
+        * @param p_data
+        * @parma p_dataSize
+        */
+        FElementBuffer(const uint32_t* p_data, const size_t p_dataSize);
 
+        /**
+        * Create the EBO using a vector
+        * @param p_data
+        */
+        explicit FElementBuffer(const std::vector<uint32_t>& p_data);
 
+        /**
+        * Destructor
+        */
+        ~FElementBuffer();
+
+        /**
+        * Bind the buffer
+        */
+        void Bind() const;
+
+        /**
+        * Unbind the buffer
+        */
+        void Unbind();
+
+        /**
+        * Returns the ID of the OpenGL EBO
+        */
+        [[nodiscard]] uint32_t GetID() const;
+
+    private:
+        uint32_t m_bufferID;
+    };
 
 }
 

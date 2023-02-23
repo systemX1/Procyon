@@ -6,8 +6,9 @@
 #include "TVertexBuffer.h"
 
 namespace PrRendering::Buffer {
+
     template<class T>
-    TVertexBuffer<T>::TVertexBuffer(const T* p_data, const size_t p_dataSize) {
+    TVertexBuffer<T>::TVertexBuffer(const T* p_data, const size_t p_dataSize) : m_bufferID{0} {
         glGenBuffers(1, &m_bufferID);
         glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
         glBufferData(GL_ARRAY_BUFFER, p_dataSize * sizeof(T), p_data, GL_STATIC_DRAW);
@@ -27,13 +28,11 @@ namespace PrRendering::Buffer {
     template<class T>
     void TVertexBuffer<T>::Bind() const {
         glBindBuffer(GL_ARRAY_BUFFER, m_bufferID);
-        logd("bind TVertexBuffer {}", m_bufferID);
     }
 
     template<class T>
     void TVertexBuffer<T>::Unbind() {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-        logd("unbind TVertexBuffer");
     }
 
     template<class T>

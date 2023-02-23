@@ -64,7 +64,7 @@ namespace PrRendering::Buffer {
         */
         [[nodiscard]] uint32_t GetID() const;
 
-    //private:
+    private:
         uint32_t m_bufferID;
     };
 
