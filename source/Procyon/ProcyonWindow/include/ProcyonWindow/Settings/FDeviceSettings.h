@@ -13,14 +13,14 @@ namespace PrWindow::Settings {
         * specifies whether to create a debug OpenGL context, which may have additional error and
         * performance issue reporting functionality. If OpenGL ES is requested, this hint is ignored
         */
-        bool debugProfile = false;
+        bool isDebugProfile = false;
 
         /**
         * Specifies whether the OpenGL context should be forward-compatible, i.e. one where all functionality
         * deprecated in the requested version of OpenGL is removed. This must only be used if the requested OpenGL
         * version is 3.0 or above. If OpenGL ES is requested, this hint is ignored.
         */
-        bool forwardCompatibility = false;
+        bool isForwardCompatibility = false;
 
         /**
         * Specify the client API major version that the created context must be compatible with. The exact

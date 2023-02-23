@@ -78,7 +78,7 @@ namespace PrWindow::Device {
         void DestroyCursors();
 
     private:
-        bool m_vsync = true;
+        bool m_isVsync = true;
         bool m_isAlive = false;
         std::unordered_map<Cursor::ECursorShape, GLFWcursor*> m_cursors;
     };

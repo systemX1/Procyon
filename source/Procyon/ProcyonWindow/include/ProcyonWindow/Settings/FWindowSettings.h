@@ -57,51 +57,51 @@ namespace PrWindow::Settings {
 		int16_t maximumHeight = DO_NOT_CRAE;
 
 		/**
-		* Specifies if the window is by default in fullscreen or windowed mode
+		* Specifies if the window is by default in isFullscreen or windowed mode
 		*/
-		bool fullscreen = false;
+		bool isFullscreen = false;
 
 		/**
 		* Specifies whether the windowed mode window will have window decorations such as a border, a close widget, etc.
 		* An undecorated window may still allow the user to generate close events on some platforms. This hint is ignored
 		* for full screen windows.
 		*/
-		bool decorated = true;
+		bool isDecorated = true;
 
 		/**
-		* specifies whether the windowed mode window will be resizable by the user. The window will still be resizable using
+		* specifies whether the windowed mode window will be isResizable by the user. The window will still be isResizable using
 		* the "SetSize(uint16_t, uint16_t)" method of the "Window" class. This hint is ignored for full screen windows
 		*/
-		bool resizable = true;
+		bool isResizable = true;
 
 		/**
 		* Specifies whether the windowed mode window will be given input focus when created. This hint is ignored for
 		* full screen and initially hidden windows.
 		*/
-		bool focused = true;
+		bool isFocused = true;
 
 		/**
-		* Specifies whether the windowed mode window will be maximized when created. This hint is ignored for full screen windows.
+		* Specifies whether the windowed mode window will be isMaximized when created. This hint is ignored for full screen windows.
 		*/
-		bool maximized = false;
+		bool isMaximized = false;
 
 		/**
-		* Specifies whether the windowed mode window will be floating above other regular windows, also called topmost or always-on-top.
+		* Specifies whether the windowed mode window will be isFloating above other regular windows, also called topmost or always-on-top.
 		* This is intended primarily for debugging purposes and cannot be used to implement proper full screen windows. This hint is
 		* ignored for full screen windows.
 		*/
-		bool floating = false;
+		bool isFloating = false;
 
 		/**
-		* Specifies whether the windowed mode window will be initially visible. This hint is ignored for full screen windows.
+		* Specifies whether the windowed mode window will be initially isVisible. This hint is ignored for full screen windows.
 		*/
-		bool visible = true;
+		bool isVisible = true;
 
 		/**
 		* Specifies whether the full screen window will automatically iconify and restore
 		* the previous video mode on input focus loss. This hint is ignored for windowed mode windows
 		*/
-		bool autoIconify = true;
+		bool isAutoIconify = true;
 
 		/**
 		* Specifies the desired refresh rate for full screen windows. If set to WindowSettings::DontCare, the highest

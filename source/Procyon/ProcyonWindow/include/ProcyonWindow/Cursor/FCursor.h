@@ -7,13 +7,13 @@
 
 namespace PrWindow::Cursor {
 
-    enum class ECursorMode {
+    enum class ECursorMode : int {
         Normal    = GLFW_CURSOR_NORMAL,
         Disabled  = GLFW_CURSOR_DISABLED,
         Hidden    = GLFW_CURSOR_HIDDEN,
     };
 
-    enum class ECursorShape {
+    enum class ECursorShape : int {
         Arrow     = GLFW_ARROW_CURSOR,
         IBeam     = GLFW_IBEAM_CURSOR,
         Corsshair = GLFW_CROSSHAIR_CURSOR,

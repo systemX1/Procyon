@@ -9,7 +9,7 @@ PrWindow::FWindow::FWindow(const Device::FDevice& p_device, const Settings::FWin
     m_size{ p_windowSettings.width, p_windowSettings.height },
     m_minimumSize{ p_windowSettings.minimumWidth, p_windowSettings.minimumHeight },
     m_maximumSize{ p_windowSettings.maximumWidth, p_windowSettings.maximumHeight },
-    m_fullscreen(p_windowSettings.fullscreen),
+    m_isFullscreen(p_windowSettings.isFullscreen),
     m_refreshRate(p_windowSettings.refreshRate)
 {
 	/* Window creation */
@@ -37,21 +37,21 @@ PrWindow::FWindow::FWindow(const Device::FDevice& p_device, const Settings::FWin
 void PrWindow::FWindow::CreateGlfwWindow(const Settings::FWindowSettings& p_windowSettings) {
     GLFWmonitor* selectedMonitor = nullptr;
 
-    if (m_fullscreen)
+    if (m_isFullscreen)
         selectedMonitor = glfwGetPrimaryMonitor();
 
-    glfwWindowHint(GLFW_RESIZABLE, p_windowSettings.resizable);
-    glfwWindowHint(GLFW_DECORATED, p_windowSettings.decorated);
-    glfwWindowHint(GLFW_FOCUSED, p_windowSettings.focused);
-    glfwWindowHint(GLFW_MAXIMIZED, p_windowSettings.maximized);
-    glfwWindowHint(GLFW_FLOATING, p_windowSettings.floating);
-    glfwWindowHint(GLFW_VISIBLE, p_windowSettings.visible);
-    glfwWindowHint(GLFW_AUTO_ICONIFY, p_windowSettings.autoIconify);
+    glfwWindowHint(GLFW_RESIZABLE, p_windowSettings.isResizable);
+    glfwWindowHint(GLFW_DECORATED, p_windowSettings.isDecorated);
+    glfwWindowHint(GLFW_FOCUSED, p_windowSettings.isFocused);
+    glfwWindowHint(GLFW_MAXIMIZED, p_windowSettings.isMaximized);
+    glfwWindowHint(GLFW_FLOATING, p_windowSettings.isFloating);
+    glfwWindowHint(GLFW_VISIBLE, p_windowSettings.isVisible);
+    glfwWindowHint(GLFW_AUTO_ICONIFY, p_windowSettings.isAutoIconify);
     glfwWindowHint(GLFW_REFRESH_RATE, p_windowSettings.refreshRate);
     glfwWindowHint(GLFW_SAMPLES, p_windowSettings.samples);
 
-    //m_glfwWindow = glfwCreateWindow(m_size.first, m_size.second, m_title.c_str(), selectedMonitor, nullptr);
-    m_glfwWindow = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+    m_glfwWindow = glfwCreateWindow(m_size.first, m_size.second, m_title.c_str(), selectedMonitor, nullptr);
+    logi("glfwCreateWindow with w:{} h:{} title:{}", m_size.first, m_size.second, m_title);
 
     assert(m_glfwWindow != nullptr && "create GLFW window failed");
     

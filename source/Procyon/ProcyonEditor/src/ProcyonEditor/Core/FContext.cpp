@@ -8,11 +8,12 @@ PrEditor::Core::FContext::FContext(const std::string& p_projectPath, const std::
     // Settings
     PrWindow::Settings::FDeviceSettings deviceSettings;
     deviceSettings.contextMajorVersion = 4;
-    deviceSettings.contextMinorVersion = 3;
-    windowSettings.title = "Overload Editor";
+    deviceSettings.contextMinorVersion = 6;
+    windowSettings.title = "Procyon Editor";
     windowSettings.width = 1280;
     windowSettings.height = 720;
-    windowSettings.maximized = true;
+    windowSettings.isMaximized = true;
+    windowSettings.isFullscreen = false;
 
     // Window creation
     device = std::make_unique<PrWindow::Device::FDevice>(deviceSettings);

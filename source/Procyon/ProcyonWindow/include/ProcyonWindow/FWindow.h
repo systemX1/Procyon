@@ -10,6 +10,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <fmtlog/fmtlog.h>
+
+#include "ProcyonDebug/Logger/FLogger.h"
 
 #include "ProcyonWindow/Settings/FWindowSettings.h"
 #include "ProcyonWindow/Device/FDevice.h"
@@ -107,7 +110,7 @@ namespace PrWindow {
         void Restore() const;
 
         /**
-        * Hides the specified window if it was previously visible
+        * Hides the specified window if it was previously isVisible
         */
         void Hide() const;
 
@@ -133,19 +136,19 @@ namespace PrWindow {
         bool ShouldClose() const;
 
         /**
-        * Set the window in fullscreen or windowed mode
+        * Set the window in isFullscreen or windowed mode
         * @param p_value (True for fullscreen mode, false for windowed)
         */
         void SetFullscreen(bool p_value);
 
         /**
-        * Switch the window to fullscreen or windowed mode depending
+        * Switch the window to isFullscreen or windowed mode depending
         * on the current state
         */
         void ToggleFullscreen();
 
         /**
-        * Return true if the window is fullscreen
+        * Return true if the window is isFullscreen
         */
         bool IsFullscreen() const;
 
@@ -155,12 +158,12 @@ namespace PrWindow {
         bool IsHidden() const;
 
         /**
-        * Return true if the window is visible
+        * Return true if the window is isVisible
         */
         bool IsVisible() const;
 
         /**
-        * Return true if the windows is maximized
+        * Return true if the windows is isMaximized
         */
         bool IsMaximized() const;
 
@@ -170,17 +173,17 @@ namespace PrWindow {
         bool IsMinimized() const;
 
         /**
-        * Return true if the windows is focused
+        * Return true if the windows is isFocused
         */
         bool IsFocused() const;
 
         /**
-        * Return true if the windows is resizable
+        * Return true if the windows is isResizable
         */
         bool IsResizable() const;
 
         /**
-        * Return true if the windows is decorated
+        * Return true if the windows is isDecorated
         */
         bool IsDecorated() const;
 
@@ -262,7 +265,7 @@ namespace PrWindow {
         Cursor::ECursorShape GetCursorShape() const;
 
         /**
-        * Return the current refresh rate (Only applied to the fullscreen mode).
+        * Return the current refresh rate (Only applied to the isFullscreen mode).
         * If the value is -1 (WindowSettings::DontCare) the highest refresh rate will be used
         */
         int32_t GetRefreshRate() const;
@@ -302,7 +305,7 @@ namespace PrWindow {
 		std::pair<int16_t, int16_t>   m_minimumSize;
 		std::pair<int16_t, int16_t>   m_maximumSize;
 		std::pair<int16_t, int16_t>   m_position;
-		bool    m_fullscreen;
+		bool    m_isFullscreen;
 		int32_t m_refreshRate;
         Cursor::ECursorMode  m_cursorMode;
         Cursor::ECursorShape m_cursorShape;
