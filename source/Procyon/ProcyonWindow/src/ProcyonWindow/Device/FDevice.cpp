@@ -12,7 +12,7 @@ PrWindow::Device::FDevice::FDevice(const Settings::FDeviceSettings& p_deviceSett
 
     CreateCursors();
 
-    if (p_deviceSettings.debugProfile)
+    if (p_deviceSettings.isDebugProfile)
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, p_deviceSettings.contextMajorVersion);
@@ -38,12 +38,12 @@ GLFWcursor* PrWindow::Device::FDevice::GetCursorInstance(Cursor::ECursorShape p_
 }
 
 bool PrWindow::Device::FDevice::HasVsync() const {
-    return m_vsync;
+    return m_isVsync;
 }
 
 void PrWindow::Device::FDevice::SetVsync(const bool p_value) {
     glfwSwapInterval(p_value ? 1 : 0);
-    m_vsync = p_value;
+    m_isVsync = p_value;
 }
 
 void PrWindow::Device::FDevice::PollEvents() const {

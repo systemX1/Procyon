@@ -113,7 +113,8 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\ProcyonCore\include;..\ProcyonWindow\include;..\ProcyonTool\include;include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ProcyonCore\include;..\ProcyonWindow\include;..\ProcyonDebug\include;..\ProcyonTool\include;include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4244;4267;4554;4996;6011;6281;6285;6297;6387;26437;26451;26495;26498</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -153,6 +154,9 @@
     <ClInclude Include="include\ProcyonEditor\Core\FEditor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ProcyonDebug\ProcyonDebug.vcxproj">
+      <Project>{94c76dd3-5030-4b6a-b6b1-e26e225738a8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\ProcyonTool\ProcyonTool.vcxproj">
       <Project>{73c1b0ea-e01e-473e-8764-35663d53e38a}</Project>
     </ProjectReference>
