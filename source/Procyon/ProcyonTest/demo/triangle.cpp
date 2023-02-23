@@ -7,6 +7,7 @@
 #include "ProcyonRendering/Resources/FShader.h"
 #include "ProcyonRendering/Buffer/TVertexBuffer.h"
 #include "ProcyonRendering/Buffer/FVertexArray.h"
+#include "ProcyonRendering/Buffer/FElementBuffer.h"
 
 
 #include "ProcyonWindow/FWindow.h"
@@ -111,7 +112,7 @@ namespace Demo::Triangle {
         };
         
         PrRendering::Buffer::FVertexArray vao;
-        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, static_cast<int>(3) * 3);
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices)/ sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         while (!app.window->ShouldClose()) {
@@ -124,6 +125,100 @@ namespace Demo::Triangle {
             triangleShader.UseProgram();
             vao.Bind();
             glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // hello, rectangle
+    TEST(ProcyonEditor, rectangle1) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
+
+        float vertices[] = {
+            0.5f, 0.5f, 0.0f,   // 右上角
+            0.5f, -0.5f, 0.0f,  // 右下角
+            -0.5f, -0.5f, 0.0f, // 左下角
+            -0.5f, 0.5f, 0.0f   // 左上角
+        };
+        unsigned int indices[] = {
+            // 注意索引从0开始! 
+            // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+            // 这样可以由下标代表顶点组合成矩形
+
+            0, 1, 3, // 第一个三角形
+            1, 2, 3  // 第二个三角形
+        };
+
+        uint32_t EBO;
+        glGenBuffers(1, &EBO);
+
+        // bind: vao->vbo->ebo
+        PrRendering::Buffer::FVertexArray vao;
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.Bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // hello, rectangle
+    TEST(ProcyonEditor, rectangle2) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
+
+        float vertices[] = {
+            0.5f, 0.5f, 0.0f,   // 右上角
+            0.5f, -0.5f, 0.0f,  // 右下角
+            -0.5f, -0.5f, 0.0f, // 左下角
+            -0.5f, 0.5f, 0.0f   // 左上角
+        };
+        uint32_t indices[] = {
+            // 注意索引从0开始! 
+            // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+            // 这样可以由下标代表顶点组合成矩形
+
+            0, 1, 3, // 第一个三角形
+            1, 2, 3  // 第二个三角形
+        };
+
+
+        // bind: vao->vbo->ebo
+        PrRendering::Buffer::FVertexArray vao;
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
+
+        PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
+
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.Bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
             app.window->SwapBuffers();
         }

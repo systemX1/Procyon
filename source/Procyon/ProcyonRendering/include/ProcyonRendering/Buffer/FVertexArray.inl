@@ -28,12 +28,10 @@ namespace PrRendering::Buffer {
 
     inline void FVertexArray::Bind() const {
         glBindVertexArray(m_bufferID);
-        logd("bind FVertexArray {}", m_bufferID);
     }
 
     inline void FVertexArray::Unbind() {
         glBindVertexArray(0);
-        logd("unbind FVertexArray");
     }
 
     inline uint32_t FVertexArray::GetID() const {
