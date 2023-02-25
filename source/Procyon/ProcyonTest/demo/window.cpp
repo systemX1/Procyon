@@ -66,7 +66,7 @@ namespace Demo::Window {
         }
     }
 
-    TEST(ProcyonEditor, window2) {
+    TEST(ProcyonWindow, window) {
         InitWindow();
 
         while (!app.window->ShouldClose()) {

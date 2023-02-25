@@ -107,7 +107,7 @@ namespace Demo::Triangle {
         };
         
         PrRendering::Buffer::FVertexArray vao;
-        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices)/ sizeof(float));
+        PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices)/ sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         while (!app.window->ShouldClose()) {
@@ -126,7 +126,7 @@ namespace Demo::Triangle {
     }
 
     // hello, rectangle
-    TEST(ProcyonEditor, rectangle1) {
+    TEST(ProcyonRendering, rectangle1) {
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -152,7 +152,7 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
-        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -174,8 +174,9 @@ namespace Demo::Triangle {
     }
 
     // hello, rectangle
-    TEST(ProcyonEditor, rectangle2) {
+    TEST(ProcyonRendering, rectangle2) {
         fmtlog::setLogLevel(fmtlog::DBG);
+        //fmtlog::setLogFile(stderr, false);
 
         InitWindow();
         const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
@@ -197,7 +198,7 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
-        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
@@ -217,8 +218,153 @@ namespace Demo::Triangle {
         }
     }
 
+    // hello, rectangle
+    TEST(ProcyonRendering, rectangle3) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+        //fmtlog::setLogFile(stderr, false);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\test\ColorfulRectangleVS.glsl)", R"(..\..\..\asset\shader\test\ColorfulRectangleFS.glsl)");
+
+        float vertices[] = {
+            0.5f, 0.5f, 0.0f,    1.0f, 0.0f, 0.0f, // 右上角
+            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, // 右下角
+            -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // 左下角
+            -0.5f, 0.5f, 0.0f,   1.0f, 0.0f, 1.0f, // 左上角
+        };
+        uint32_t indices[] = {
+            // 注意索引从0开始! 
+            // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+            // 这样可以由下标代表顶点组合成矩形
+            0, 1, 3, // 第一个三角形
+            1, 2, 3  // 第二个三角形
+        };
+
+        // bind: vao->vbo->ebo
+        PrRendering::Buffer::FVertexArray vao;
+        PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
+        vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 6 * sizeof(float), 0);
+        vao.BindAttribute(vbo, 1, 3, PrRendering::Buffer::EType::Float, 6 * sizeof(float), 3 * sizeof(float));
+
+        PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.Bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+
+    // hello, rectangle
+    TEST(ProcyonRendering, rectangle4) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+        //fmtlog::setLogFile(stderr, false);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\test\ColorfulRectangleVS.glsl)", R"(..\..\..\asset\shader\test\ColorfulRectangleFS.glsl)");
+
+        float vertices[] = {
+            0.5f, 0.5f, 0.0f,    1.0f, 0.0f, 0.0f, // 右上角
+            0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, // 右下角
+            -0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f, // 左下角
+            -0.5f, 0.5f, 0.0f,   1.0f, 0.0f, 1.0f, // 左上角
+        };
+        uint32_t indices[] = {
+            // 注意索引从0开始! 
+            // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+            // 这样可以由下标代表顶点组合成矩形
+            0, 1, 3, // 第一个三角形
+            1, 2, 3  // 第二个三角形
+        };
+
+        // bind: vao->vbo->ebo
+        const PrRendering::Buffer::FVertexBufferLayouts vertexBufferLayouts{
+            PrRendering::Buffer::FVertexBufferLayout(0, 3, 6, false),
+            PrRendering::Buffer::FVertexBufferLayout(1, 3, 6, false),
+        };
+        const PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float), vertexBufferLayouts);
+        const PrRendering::Buffer::FVertexArray vao(vbo);
+        PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            vao.Bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            app.window->SwapBuffers();
+        }
+    }
+
+    // hello, rectangle
+    TEST(ProcyonRendering, rectangle5) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+        //fmtlog::setLogFile(stderr, false);
+
+        InitWindow();
+        const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\test\ColorfulRectangle2VS.glsl)", R"(..\..\..\asset\shader\test\ColorfulRectangle2FS.glsl)");
+
+        float vertices[] = {
+            0.5f, 0.5f, 0.0f,  // 右上角
+            0.5f, -0.5f, 0.0f, // 右下角
+            -0.5f, -0.5f, 0.0f,// 左下角
+            -0.5f, 0.5f, 0.0f, // 左上角
+        };
+        uint32_t indices[] = {
+            // 注意索引从0开始! 
+            // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+            // 这样可以由下标代表顶点组合成矩形
+            0, 1, 3, // 第一个三角形
+            1, 2, 3  // 第二个三角形
+        };
+
+        // bind: vao->vbo->ebo
+        const PrRendering::Buffer::FVertexBufferLayouts vertexBufferLayouts{
+            PrRendering::Buffer::FVertexBufferLayout(0, 3, 3, false),
+        };
+        const PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float), vertexBufferLayouts);
+        const PrRendering::Buffer::FVertexArray vao(vbo);
+        PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
+
+        while (!app.window->ShouldClose()) {
+            fmtlog::poll();
+            app.device->PollEvents();
+
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            triangleShader.UseProgram();
+            const int    loc        = glGetUniformLocation(triangleShader.GetID(), "color");
+            const float timeValue  = glfwGetTime() + 0.5;
+            const float redValue = (sin(timeValue));
+            const float greenValue = (cos(timeValue));
+            const float blueValue = (atan(timeValue));
+            glUniform3f(loc, redValue, greenValue, blueValue);
+
+            vao.Bind();
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+            app.window->SwapBuffers();
+            Sleep(50);
+        }
+    }
+
     // ex1 Try to draw 2 triangles next to each other using glDrawArrays by adding more vertices to your data
-    TEST(ProcyonEditor, ex1) {
+    TEST(ProcyonRendering, ex1) {
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -237,7 +383,7 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
-        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+        PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         while (!app.window->ShouldClose()) {
@@ -256,7 +402,7 @@ namespace Demo::Triangle {
     }
 
     // ex2 Now create the same 2 triangles using two different VAOs and VBOs for their data
-    TEST(ProcyonEditor, ex2) {
+    TEST(ProcyonRendering, ex2) {
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -282,9 +428,9 @@ namespace Demo::Triangle {
         vao.emplace_back(std::move(vao1));
         vao.emplace_back(std::move(vao2));
 
-        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
-        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
-        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+        std::vector<std::unique_ptr<PrRendering::Buffer::FVertexBuffer > > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
         vbo.emplace_back(std::move(vbo1));
         vbo.emplace_back(std::move(vbo2));
 
@@ -309,7 +455,7 @@ namespace Demo::Triangle {
     }
 
     // ex3 Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow
-    TEST(ProcyonEditor, ex3) {
+    TEST(ProcyonRendering, ex3) {
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -336,9 +482,9 @@ namespace Demo::Triangle {
         vao.emplace_back(std::move(vao1));
         vao.emplace_back(std::move(vao2));
 
-        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
-        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
-        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+        std::vector<std::unique_ptr<PrRendering::Buffer::FVertexBuffer> > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
         vbo.emplace_back(std::move(vbo1));
         vbo.emplace_back(std::move(vbo2));
 

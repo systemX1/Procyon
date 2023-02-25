@@ -54,7 +54,7 @@ namespace PrRendering::Buffer {
 
     inline FVertexArray::~FVertexArray() {
         glDeleteVertexArrays(1, &m_bufferID);
-        logd("del FVertexArray {}", m_bufferID);
+         logd("del FVertexArray {}", m_bufferID);
     }
 
     inline void FVertexArray::BindAttribute(const FVertexBuffer& p_vertexBuffer, const uint32_t p_vertexAttributeIndex, const uint64_t p_size, EType p_type, const uint64_t p_stride, const intptr_t p_offset) {
