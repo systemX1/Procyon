@@ -12,13 +12,52 @@ namespace PrRendering::Buffer {
         logd("gen and bind FVertexArray {}", m_bufferID);
     }
 
+    inline FVertexArray::FVertexArray(const std::vector<FVertexBuffer>& p_vertexBuffers) {
+        glGenVertexArrays(1, &m_bufferID);
+        Bind();
+        for (const auto& vertexBuffer : p_vertexBuffers) {
+            uint64_t offset = 0;
+            vertexBuffer.Bind();
+            for (const auto& layout : vertexBuffer.vertexBufferLayouts) {
+                glEnableVertexAttribArray(layout.location);
+                glVertexAttribPointer(
+                    static_cast<GLuint>(layout.location), 
+                    static_cast<GLint>(layout.size), 
+                    static_cast<GLenum>(EType::Float), 
+                    GL_FALSE, 
+                    static_cast<GLsizei>(layout.stride * sizeof(float)),
+                    reinterpret_cast<const GLvoid*>(offset * sizeof(float)));
+                offset += layout.size;
+            }
+        }
+        logd("gen and bind FVertexArray {} from FVertexBuffer", m_bufferID);
+    }
+
+    inline FVertexArray::FVertexArray(const FVertexBuffer& p_vertexBuffer) {
+        glGenVertexArrays(1, &m_bufferID);
+        Bind();
+        p_vertexBuffer.Bind();
+        uint64_t offset = 0;
+        for (const auto& layout : p_vertexBuffer.vertexBufferLayouts) {
+            glEnableVertexAttribArray(layout.location);
+            glVertexAttribPointer(
+                static_cast<GLuint>(layout.location),
+                static_cast<GLint>(layout.size),
+                static_cast<GLenum>(EType::Float),
+                GL_FALSE,
+                static_cast<GLsizei>(layout.stride * sizeof(float)),
+                reinterpret_cast<const GLvoid*>(offset * sizeof(float)));
+            offset += layout.size;
+        }
+        logd("gen and bind FVertexArray {} from FVertexBuffer", m_bufferID);
+    }
+
     inline FVertexArray::~FVertexArray() {
         glDeleteVertexArrays(1, &m_bufferID);
          logd("del FVertexArray {}", m_bufferID);
     }
 
-    template<class T>
-    void FVertexArray::BindAttribute(TVertexBuffer<T>& p_vertexBuffer, const uint32_t p_vertexAttributeIndex, const uint64_t p_size, EType p_type, const uint64_t p_stride, const intptr_t p_offset) {
+    inline void FVertexArray::BindAttribute(const FVertexBuffer& p_vertexBuffer, const uint32_t p_vertexAttributeIndex, const uint64_t p_size, EType p_type, const uint64_t p_stride, const intptr_t p_offset) {
         Bind();
         p_vertexBuffer.Bind();
         glEnableVertexAttribArray(p_vertexAttributeIndex);

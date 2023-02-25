@@ -3,7 +3,7 @@
 #ifndef PRRENDERING_BUFFER_FVERTEXARRAY_H
 #define PRRENDERING_BUFFER_FVERTEXARRAY_H
 
-#include "TVertexBuffer.h"
+#include "FVertexBuffer.h"
 
 namespace PrRendering::Buffer {
 
@@ -37,6 +37,10 @@ namespace PrRendering::Buffer {
         */
         explicit FVertexArray();
 
+        explicit FVertexArray(const std::vector<FVertexBuffer>& p_vertexBuffers);
+
+        explicit FVertexArray(const FVertexBuffer& p_vertexBuffer);
+
         /**
         * Destroy the vertex array
         */
@@ -51,8 +55,7 @@ namespace PrRendering::Buffer {
         * @param p_stride
         * @param p_offset
         */
-        template <class T>
-        void BindAttribute(TVertexBuffer<T>& p_vertexBuffer, uint32_t p_vertexAttributeIndex, uint64_t p_size, EType p_type, uint64_t p_stride, intptr_t p_offset);
+        void BindAttribute(const FVertexBuffer& p_vertexBuffer, uint32_t p_vertexAttributeIndex, uint64_t p_size, EType p_type, uint64_t p_stride, intptr_t p_offset);
 
         /**
         * Bind the buffer
