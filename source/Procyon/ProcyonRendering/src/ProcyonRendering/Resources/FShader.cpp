@@ -1,4 +1,5 @@
-#include "FShader.h"
+
+#include "ProcyonRendering/Resources/FShader.h"
 
 PrRendering::Resources::FShader::FShader(const char* p_vertexShaderPath, const char* p_fragmentShaderPath) {
     // prepare shader data
@@ -54,6 +55,10 @@ void PrRendering::Resources::FShader::UseProgram() const {
     glUseProgram(m_id);
 }
 
+void PrRendering::Resources::FShader::UnUseProgram() const {
+    glUseProgram(0);
+}
+
 void PrRendering::Resources::FShader::SetBool(const std::string& p_name, const bool p_value) const {
     glUniform1i(glGetUniformLocation(m_id, p_name.c_str()), static_cast<int>(p_value));
 }
@@ -64,6 +69,10 @@ void PrRendering::Resources::FShader::SetInt(const std::string& p_name, const in
 
 void PrRendering::Resources::FShader::SetFloat(const std::string& p_name, const float p_value) const {
     glUniform1f(glGetUniformLocation(m_id, p_name.c_str()), p_value);
+}
+
+uint32_t PrRendering::Resources::FShader::GetID() const {
+    return m_id;
 }
 
 void PrRendering::Resources::FShader::CheckCompileErrors(const unsigned int p_shader, const std::string& p_type) {

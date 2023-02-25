@@ -1,19 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="include\ProcyonRendering\Buffer\TVertexBuffer.h" />
+    <ClInclude Include="include\ProcyonRendering\Buffer\FVertexBuffer.h" />
     <ClInclude Include="include\ProcyonRendering\Resources\FShader.h" />
     <ClInclude Include="include\ProcyonRendering\Buffer\FVertexArray.h" />
     <ClInclude Include="include\ProcyonRendering\Buffer\FElementBuffer.h" />
+    <ClInclude Include="include\ProcyonRendering\Resources\FTexture2D.h" />
+    <ClInclude Include="include\ProcyonRendering\Settings\ETextureFilteringMode.h" />
+    <ClInclude Include="include\ProcyonRendering\Resources\Loader\FTexture2DLoader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="include\ProcyonRendering\Buffer\TVertexBuffer.inl" />
+    <None Include="include\ProcyonRendering\Buffer\FVertexBuffer.inl" />
     <None Include="include\ProcyonRendering\Shader\fs.glsl" />
     <None Include="include\ProcyonRendering\Shader\vs.glsl" />
     <None Include="include\ProcyonRendering\Buffer\FVertexArray.inl" />
     <None Include="include\ProcyonRendering\Buffer\FElementBuffer.inl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="include\ProcyonRendering\Resources\FShader.cpp" />
+    <ClCompile Include="src\ProcyonRendering\Resources\FShader.cpp" />
+    <ClCompile Include="src\ProcyonRendering\Resources\FTexture2D.cpp" />
+    <ClCompile Include="src\ProcyonRendering\Resources\Loader\FTexture2DLoader.cpp" />
   </ItemGroup>
 </Project>
