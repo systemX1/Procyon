@@ -107,7 +107,11 @@ namespace Demo::Triangle {
         };
         
         PrRendering::Buffer::FVertexArray vao;
+<<<<<<< HEAD
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices)/ sizeof(float));
+=======
         PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices)/ sizeof(float));
+>>>>>>> feature-learnopengl
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         while (!app.window->ShouldClose()) {
@@ -126,7 +130,11 @@ namespace Demo::Triangle {
     }
 
     // hello, rectangle
+<<<<<<< HEAD
+    TEST(ProcyonEditor, rectangle1) {
+=======
     TEST(ProcyonRendering, rectangle1) {
+>>>>>>> feature-learnopengl
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -152,7 +160,11 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
+<<<<<<< HEAD
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+=======
         PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
+>>>>>>> feature-learnopengl
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -174,9 +186,14 @@ namespace Demo::Triangle {
     }
 
     // hello, rectangle
+<<<<<<< HEAD
+    TEST(ProcyonEditor, rectangle2) {
+        fmtlog::setLogLevel(fmtlog::DBG);
+=======
     TEST(ProcyonRendering, rectangle2) {
         fmtlog::setLogLevel(fmtlog::DBG);
         //fmtlog::setLogFile(stderr, false);
+>>>>>>> feature-learnopengl
 
         InitWindow();
         const PrRendering::Resources::FShader triangleShader(R"(..\..\..\asset\shader\TriangleVS.glsl)", R"(..\..\..\asset\shader\TriangleFS.glsl)");
@@ -198,7 +215,11 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
+<<<<<<< HEAD
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+=======
         PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
+>>>>>>> feature-learnopengl
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         PrRendering::Buffer::FElementBuffer ebo(indices, sizeof(indices) / sizeof(uint32_t));
@@ -218,6 +239,10 @@ namespace Demo::Triangle {
         }
     }
 
+<<<<<<< HEAD
+    // ex1 Try to draw 2 triangles next to each other using glDrawArrays by adding more vertices to your data
+    TEST(ProcyonEditor, ex1) {
+=======
     // hello, rectangle
     TEST(ProcyonRendering, rectangle3) {
         fmtlog::setLogLevel(fmtlog::DBG);
@@ -365,6 +390,7 @@ namespace Demo::Triangle {
 
     // ex1 Try to draw 2 triangles next to each other using glDrawArrays by adding more vertices to your data
     TEST(ProcyonRendering, ex1) {
+>>>>>>> feature-learnopengl
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -383,7 +409,11 @@ namespace Demo::Triangle {
 
         // bind: vao->vbo->ebo
         PrRendering::Buffer::FVertexArray vao;
+<<<<<<< HEAD
+        PrRendering::Buffer::TVertexBuffer<float> vbo(vertices, sizeof(vertices) / sizeof(float));
+=======
         PrRendering::Buffer::FVertexBuffer vbo(vertices, sizeof(vertices) / sizeof(float));
+>>>>>>> feature-learnopengl
         vao.BindAttribute(vbo, 0, 3, PrRendering::Buffer::EType::Float, 3 * sizeof(float), 0);
 
         while (!app.window->ShouldClose()) {
@@ -402,7 +432,11 @@ namespace Demo::Triangle {
     }
 
     // ex2 Now create the same 2 triangles using two different VAOs and VBOs for their data
+<<<<<<< HEAD
+    TEST(ProcyonEditor, ex2) {
+=======
     TEST(ProcyonRendering, ex2) {
+>>>>>>> feature-learnopengl
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -428,9 +462,15 @@ namespace Demo::Triangle {
         vao.emplace_back(std::move(vao1));
         vao.emplace_back(std::move(vao2));
 
+<<<<<<< HEAD
+        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+=======
         std::vector<std::unique_ptr<PrRendering::Buffer::FVertexBuffer > > vbo;
         auto vbo1 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
         auto vbo2 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+>>>>>>> feature-learnopengl
         vbo.emplace_back(std::move(vbo1));
         vbo.emplace_back(std::move(vbo2));
 
@@ -455,7 +495,11 @@ namespace Demo::Triangle {
     }
 
     // ex3 Create two shader programs where the second program uses a different fragment shader that outputs the color yellow; draw both triangles again where one outputs the color yellow
+<<<<<<< HEAD
+    TEST(ProcyonEditor, ex3) {
+=======
     TEST(ProcyonRendering, ex3) {
+>>>>>>> feature-learnopengl
         fmtlog::setLogLevel(fmtlog::DBG);
 
         InitWindow();
@@ -482,9 +526,15 @@ namespace Demo::Triangle {
         vao.emplace_back(std::move(vao1));
         vao.emplace_back(std::move(vao2));
 
+<<<<<<< HEAD
+        std::vector<std::unique_ptr<PrRendering::Buffer::TVertexBuffer<float> > > vbo;
+        auto vbo1 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
+        auto vbo2 = std::make_unique<PrRendering::Buffer::TVertexBuffer<float> >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+=======
         std::vector<std::unique_ptr<PrRendering::Buffer::FVertexBuffer> > vbo;
         auto vbo1 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(firstTriangle, sizeof(firstTriangle) / sizeof(float));
         auto vbo2 = std::make_unique<PrRendering::Buffer::FVertexBuffer >(secondTriangle, sizeof(secondTriangle) / sizeof(float));
+>>>>>>> feature-learnopengl
         vbo.emplace_back(std::move(vbo1));
         vbo.emplace_back(std::move(vbo2));
 

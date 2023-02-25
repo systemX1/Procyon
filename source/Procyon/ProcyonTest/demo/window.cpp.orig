@@ -66,7 +66,11 @@ namespace Demo::Window {
         }
     }
 
+<<<<<<< HEAD
+    TEST(ProcyonEditor, window2) {
+=======
     TEST(ProcyonWindow, window) {
+>>>>>>> feature-learnopengl
         InitWindow();
 
         while (!app.window->ShouldClose()) {
