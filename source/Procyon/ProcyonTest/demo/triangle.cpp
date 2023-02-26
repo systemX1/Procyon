@@ -27,8 +27,6 @@ namespace Demo::Triangle {
         windowSettings.title = "Procyon Editor";
         windowSettings.width = 800;
         windowSettings.height = 600;
-        windowSettings.isMaximized = true;
-        windowSettings.isFullscreen = false;
 
         app.device = std::make_unique<PrWindow::Device::FDevice>(deviceSettings);
         app.window = std::make_unique<PrWindow::FWindow>(*(app.device), windowSettings);
